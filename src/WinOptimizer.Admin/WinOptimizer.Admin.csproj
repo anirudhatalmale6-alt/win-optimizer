@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <RootNamespace>WinOptimizer.Admin</RootNamespace>
+    <AssemblyName>WinOptimizer.Admin</AssemblyName>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Version>1.0.0</Version>
+    <Description>WinOptimizer License Administration Panel</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WinOptimizer.Core\WinOptimizer.Core.csproj" />
+  </ItemGroup>
+</Project>
