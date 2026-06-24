@@ -66,13 +66,17 @@ public static class SystemInfo
         {
             try
             {
-                var ci = new Microsoft.VisualBasic.Devices.ComputerInfo();
-                return (long)(ci.TotalPhysicalMemory / 1024 / 1024);
+                var val = Registry.GetValue(
+                    @"HKEY_LOCAL_MACHINE\HARDWARE\RESOURCEMAP\System Resources\Physical Memory",
+                    ".Translated", null);
+                if (val != null) return 0;
+                var result = PowerShellHelper.Execute(
+                    "(Get-CimInstance Win32_PhysicalMemory | Measure-Object Capacity -Sum).Sum / 1MB");
+                if (result.Success && long.TryParse(result.Output.Trim(), out var mb))
+                    return mb;
             }
-            catch
-            {
-                return 0;
-            }
+            catch { }
+            return 0;
         }
     }
 
