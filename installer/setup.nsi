@@ -11,7 +11,6 @@ RequestExecutionLevel admin
 Unicode True
 
 ; UI
-!define MUI_ICON "..\src\WinOptimizer\Resources\app.ico"
 !define MUI_ABORTWARNING
 !define MUI_WELCOMEPAGE_TITLE "WinOptimizer Setup"
 !define MUI_WELCOMEPAGE_TEXT "This wizard will install WinOptimizer on your computer.$\r$\n$\r$\nWinOptimizer is a Windows 10/11 optimization suite that helps improve performance, privacy, and visual customization.$\r$\n$\r$\nClick Next to continue."
