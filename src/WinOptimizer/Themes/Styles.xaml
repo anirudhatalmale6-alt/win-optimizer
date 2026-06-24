@@ -148,19 +148,14 @@
                                 BorderBrush="{StaticResource BorderMediumBrush}" BorderThickness="1"/>
                         <Border x:Name="thumb" Background="{StaticResource TextSecondaryBrush}"
                                 CornerRadius="9" Width="18" Height="18"
-                                HorizontalAlignment="Left" Margin="3,0,0,0"
-                                RenderTransformOrigin="0.5,0.5">
-                            <Border.RenderTransform>
-                                <TranslateTransform x:Name="thumbTranslate" X="0"/>
-                            </Border.RenderTransform>
-                        </Border>
+                                HorizontalAlignment="Left" Margin="3,0,0,0"/>
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsChecked" Value="True">
                             <Setter TargetName="track" Property="Background" Value="{StaticResource AccentBrush}"/>
                             <Setter TargetName="track" Property="BorderBrush" Value="{StaticResource AccentBrush}"/>
                             <Setter TargetName="thumb" Property="Background" Value="White"/>
-                            <Setter TargetName="thumbTranslate" Property="X" Value="20"/>
+                            <Setter TargetName="thumb" Property="Margin" Value="23,0,0,0"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Opacity" Value="0.4"/>
