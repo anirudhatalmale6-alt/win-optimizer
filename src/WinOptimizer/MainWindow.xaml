@@ -336,7 +336,7 @@
         <!-- Activation Overlay -->
         <Border x:Name="ActivationOverlay" Grid.RowSpan="3" Background="#EE0D0D1A" Visibility="Collapsed">
             <Border Background="{StaticResource BgCardBrush}" CornerRadius="16"
-                    Width="420" Height="320" VerticalAlignment="Center" HorizontalAlignment="Center"
+                    Width="460" Height="440" VerticalAlignment="Center" HorizontalAlignment="Center"
                     Padding="32" BorderBrush="{StaticResource BorderMediumBrush}" BorderThickness="1">
                 <StackPanel VerticalAlignment="Center">
                     <!-- Logo -->
@@ -354,8 +354,29 @@
                     <TextBlock Text="Activate WinOptimizer" Style="{StaticResource H2}"
                                HorizontalAlignment="Center" Margin="0,0,0,6"/>
                     <TextBlock Text="Enter your license key to continue" Style="{StaticResource BodyText}"
-                               HorizontalAlignment="Center" Margin="0,0,0,20"/>
+                               HorizontalAlignment="Center" Margin="0,0,0,16"/>
 
+                    <!-- HWID Display -->
+                    <TextBlock Text="Your Hardware ID:" FontSize="11" Foreground="{StaticResource TextMutedBrush}"
+                               Margin="0,0,0,4"/>
+                    <Grid Margin="0,0,0,12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox x:Name="HwidDisplay" IsReadOnly="True"
+                                 Background="{StaticResource BgLightBrush}" Foreground="{StaticResource AccentBrush}"
+                                 BorderBrush="{StaticResource BorderMediumBrush}" BorderThickness="1"
+                                 FontFamily="{StaticResource MonoFont}" FontSize="11"
+                                 Padding="10,8" VerticalAlignment="Center"/>
+                        <Button Grid.Column="1" Content="Copy" Click="CopyHwid_Click"
+                                Style="{StaticResource SecondaryButton}" Margin="6,0,0,0"
+                                FontSize="11" Padding="12,7"/>
+                    </Grid>
+
+                    <!-- License Key Input -->
+                    <TextBlock Text="License Key:" FontSize="11" Foreground="{StaticResource TextMutedBrush}"
+                               Margin="0,0,0,4"/>
                     <TextBox x:Name="LicenseKeyBox" Style="{StaticResource ModernTextBox}"
                              FontFamily="{StaticResource MonoFont}" FontSize="12"
                              MaxLength="500" TextWrapping="Wrap" Height="60" AcceptsReturn="True"/>

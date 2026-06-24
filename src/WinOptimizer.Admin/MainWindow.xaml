@@ -41,6 +41,12 @@
                     <TextBlock Text="License Administration" FontSize="20" FontWeight="Bold"/>
                     <TextBlock Text="Generate, manage and revoke HWID-locked license keys"
                                FontSize="12" Foreground="{StaticResource TextSec}"/>
+                    <StackPanel Orientation="Horizontal" Margin="0,4,0,0">
+                        <TextBlock Text="This PC's HWID: " FontSize="11" Foreground="{StaticResource TextMuted}"/>
+                        <TextBlock x:Name="LocalHwidText" FontSize="11" Foreground="{StaticResource Accent}"
+                                   FontFamily="Cascadia Mono, Consolas" Cursor="Hand"
+                                   MouseLeftButtonUp="CopyLocalHwid_Click" ToolTip="Click to copy"/>
+                    </StackPanel>
                 </StackPanel>
             </StackPanel>
         </StackPanel>

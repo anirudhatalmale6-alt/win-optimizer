@@ -1,5 +1,6 @@
 using System.Windows;
 using System.Windows.Input;
+using WinOptimizer.Core.Licensing;
 using WinOptimizer.ViewModels;
 
 namespace WinOptimizer;
@@ -10,20 +11,46 @@ public partial class MainWindow : Window
 
     public MainWindow()
     {
-        InitializeComponent();
-        _vm = new MainViewModel();
-        DataContext = _vm;
-        Loaded += OnLoaded;
+        try
+        {
+            InitializeComponent();
+            _vm = new MainViewModel();
+            DataContext = _vm;
+            Loaded += OnLoaded;
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"Failed to initialize:\n\n{ex.Message}\n\n{ex.StackTrace}",
+                "WinOptimizer Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            throw;
+        }
     }
 
     private async void OnLoaded(object sender, RoutedEventArgs e)
     {
-        if (!_vm.CheckLicense())
+        try
         {
-            ActivationOverlay.Visibility = Visibility.Visible;
-            return;
+            if (!_vm.CheckLicense())
+            {
+                try
+                {
+                    var hwid = HwidHelper.GetHardwareId();
+                    HwidDisplay.Text = hwid;
+                }
+                catch
+                {
+                    HwidDisplay.Text = "Could not detect HWID";
+                }
+                ActivationOverlay.Visibility = Visibility.Visible;
+                return;
+            }
+            await _vm.InitializeAsync();
         }
-        await _vm.InitializeAsync();
+        catch (Exception ex)
+        {
+            MessageBox.Show($"Error during startup:\n\n{ex.Message}",
+                "WinOptimizer Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
     }
 
     private void CategoryButton_Click(object sender, RoutedEventArgs e)
@@ -52,6 +79,15 @@ public partial class MainWindow : Window
         {
             ActivationError.Text = "Invalid license key or hardware mismatch.";
         }
+    }
+
+    private void CopyHwid_Click(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            Clipboard.SetText(HwidDisplay.Text);
+        }
+        catch { }
     }
 
     private void ShowLog_Click(object sender, RoutedEventArgs e)

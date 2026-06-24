@@ -1,5 +1,5 @@
 using System.Windows;
-using WinOptimizer.Engine;
+using System.Windows.Threading;
 
 namespace WinOptimizer;
 
@@ -9,25 +9,29 @@ public partial class App : Application
     {
         base.OnStartup(e);
 
-        if (!SystemInfo.IsAdmin)
-        {
-            MessageBox.Show(
-                "WinOptimizer requires administrator privileges to apply system tweaks.\n\nPlease right-click and select 'Run as administrator'.",
-                "Administrator Required",
-                MessageBoxButton.OK,
-                MessageBoxImage.Warning);
-            Shutdown(1);
-            return;
-        }
+        DispatcherUnhandledException += OnUnhandledException;
+        AppDomain.CurrentDomain.UnhandledException += OnDomainUnhandledException;
+    }
 
-        if (!SystemInfo.IsWindows10 && !SystemInfo.IsWindows11)
+    private void OnUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
+    {
+        MessageBox.Show(
+            $"An error occurred:\n\n{e.Exception.Message}\n\n{e.Exception.StackTrace}",
+            "WinOptimizer Error",
+            MessageBoxButton.OK,
+            MessageBoxImage.Error);
+        e.Handled = true;
+    }
+
+    private void OnDomainUnhandledException(object sender, UnhandledExceptionEventArgs e)
+    {
+        if (e.ExceptionObject is Exception ex)
         {
             MessageBox.Show(
-                "WinOptimizer is designed for Windows 10 and Windows 11 only.",
-                "Unsupported OS",
+                $"A fatal error occurred:\n\n{ex.Message}\n\n{ex.StackTrace}",
+                "WinOptimizer Fatal Error",
                 MessageBoxButton.OK,
                 MessageBoxImage.Error);
-            Shutdown(1);
         }
     }
 }
