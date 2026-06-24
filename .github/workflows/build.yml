@@ -1,0 +1,38 @@
+name: Build WinOptimizer
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Restore packages
+        run: dotnet restore WinOptimizer.sln
+
+      - name: Build WinOptimizer (main app)
+        run: dotnet publish src/WinOptimizer/WinOptimizer.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:PublishTrimmed=false -p:IncludeNativeLibrariesForSelfExtract=true -o publish/WinOptimizer
+
+      - name: Build WinOptimizer Admin (license panel)
+        run: dotnet publish src/WinOptimizer.Admin/WinOptimizer.Admin.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:PublishTrimmed=false -p:IncludeNativeLibrariesForSelfExtract=true -o publish/WinOptimizer.Admin
+
+      - name: Upload WinOptimizer exe
+        uses: actions/upload-artifact@v4
+        with:
+          name: WinOptimizer
+          path: publish/WinOptimizer/WinOptimizer.exe
+
+      - name: Upload Admin Panel exe
+        uses: actions/upload-artifact@v4
+        with:
+          name: WinOptimizer-Admin
+          path: publish/WinOptimizer.Admin/WinOptimizer.Admin.exe
