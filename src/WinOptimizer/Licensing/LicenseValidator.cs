@@ -1,3 +1,4 @@
+using System.IO;
 using WinOptimizer.Core;
 using WinOptimizer.Core.Licensing;
 

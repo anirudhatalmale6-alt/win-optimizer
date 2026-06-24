@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Text.Json;
 using System.Windows;
 using System.Windows.Input;
@@ -238,7 +239,7 @@ public class MainViewModel : BaseViewModel
             {
                 current++;
                 Progress = (double)current / total * 100;
-                var status = await Task.Run(() => _engine.DetectTweakStatus(item.Tweak));
+                var status = await _engine.DetectTweakStatusAsync(item.Tweak);
                 item.Status = status;
             }
             cat.Refresh();

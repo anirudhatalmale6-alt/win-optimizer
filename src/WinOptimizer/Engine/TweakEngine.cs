@@ -8,7 +8,7 @@ public class TweakEngine
     public event Action<string>? OnLog;
     public event Action<Tweak, TweakStatus>? OnTweakStatusChanged;
 
-    public TweakStatus DetectTweakStatus(Tweak tweak)
+    public async Task<TweakStatus> DetectTweakStatusAsync(Tweak tweak)
     {
         try
         {
@@ -16,9 +16,9 @@ public class TweakEngine
             {
                 TweakType.Registry => DetectRegistryTweak(tweak),
                 TweakType.Service => DetectServiceTweak(tweak),
-                TweakType.ScheduledTask => DetectScheduledTask(tweak),
-                TweakType.PowerShell => DetectPowerShellTweak(tweak),
-                TweakType.AppRemoval => DetectAppRemoval(tweak),
+                TweakType.ScheduledTask => await DetectScheduledTask(tweak),
+                TweakType.PowerShell => await DetectPowerShellTweak(tweak),
+                TweakType.AppRemoval => await DetectAppRemoval(tweak),
                 _ => TweakStatus.Unknown
             };
         }
